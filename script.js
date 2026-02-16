@@ -38,6 +38,13 @@ const state = {
 
 render();
 
+let lastTouchEndAt = 0;
+document.addEventListener('touchend', (e) => {
+  const now = Date.now();
+  if (now - lastTouchEndAt < 300) e.preventDefault();
+  lastTouchEndAt = now;
+}, { passive: false });
+
 $keys.addEventListener('click', (e) => {
   const key = e.target.closest('button')?.dataset.key;
   if (!key) return;

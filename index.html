@@ -2,8 +2,13 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <title>Magic iOS26 Calculator</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icon-192.svg" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
@@ -56,6 +61,7 @@
 
   <dialog id="configDialog" class="config">
     <form method="dialog" class="config-card" id="configForm">
+      <div class="sheet-grabber" aria-hidden="true"></div>
       <h2>魔术配置</h2>
       <p class="hint">入口：输入 <code>88224466=</code></p>
 
@@ -69,9 +75,12 @@
         <input type="number" min="0" max="3600" step="1" id="cfgDelay" />
       </label>
 
-      <label class="switch-row">
-        调试信息开关（默认关闭）
-        <input type="checkbox" id="cfgDebug" />
+      <label class="switch-row" for="cfgDebug">
+        <span>调试信息</span>
+        <span class="switch">
+          <input type="checkbox" id="cfgDebug" />
+          <span class="slider"></span>
+        </span>
       </label>
 
       <menu>
