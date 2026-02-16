@@ -321,7 +321,7 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
   cursor: default;
 }
 .cfg-btn-outline {
-  margin-top: 8px;
+  margin-top: 12px;
   width: 100%;
   height: 50px;
   border-radius: 12px;
