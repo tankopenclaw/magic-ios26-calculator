@@ -11,9 +11,11 @@ const $cfgDelay = document.getElementById('cfgDelay');
 const $cfgDebug = document.getElementById('cfgDebug');
 const $cfgClose = document.getElementById('cfgClose');
 const $cfgSave = document.getElementById('cfgSave');
+const $shareBtn = document.getElementById('shareBtn');
 const $helpBtn = document.getElementById('helpBtn');
 const $helpDialog = document.getElementById('helpDialog');
 const $helpClose = document.getElementById('helpClose');
+const $toast = document.getElementById('toast');
 
 const STORAGE_KEY = 'magicCalcConfigV1';
 const SECRET = '88224466=';
@@ -86,6 +88,25 @@ $cfgClose.addEventListener('click', () => {
 $dialog.addEventListener('click', (e) => {
   if (e.target === $dialog) {
     $dialog.close();
+  }
+});
+
+$shareBtn?.addEventListener('click', async () => {
+  const text = '我找到了春晚同款魔术计算器，快来试试吧 magicclac.pages.dev';
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('邀请文案已复制到剪贴板');
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+    showToast('邀请文案已复制到剪贴板');
   }
 });
 
@@ -350,6 +371,17 @@ function updateInstallUi() {
   if ($helpBtn) {
     $helpBtn.classList.toggle('hidden', isStandalone);
   }
+}
+
+let toastTimer = null;
+function showToast(text) {
+  if (!$toast) return;
+  $toast.textContent = text;
+  $toast.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    $toast.classList.remove('show');
+  }, 1600);
 }
 
 function formatNum(n) {

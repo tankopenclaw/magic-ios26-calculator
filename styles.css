@@ -58,6 +58,10 @@ button, input, label {
   align-items: center;
   gap: 8px;
 }
+.icon-share {
+  width: 24px;
+  height: 24px;
+}
 .icon-btn.icon-btn-help {
   width: auto;
   height: 42px;
@@ -361,6 +365,28 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
   color: #fff;
 }
 
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(28, 29, 34, 0.95);
+  border: 1px solid #3a3e49;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s ease, transform .22s ease;
+  z-index: 50;
+  white-space: nowrap;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 @media (max-width: 390px) {
   .phone { padding-inline: 10px; }
   .keys { gap: 9px; }
@@ -368,4 +394,9 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
   .expr { font-size: clamp(22px, 5.2vw, 40px); }
   .help-content { font-size: 15px; }
   .help-item h3 { font-size: 17px; }
+  .toast {
+    max-width: calc(100vw - 24px);
+    white-space: normal;
+    text-align: center;
+  }
 }
