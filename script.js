@@ -8,6 +8,7 @@ const $cfgCount = document.getElementById('cfgCount');
 const $topBar = document.querySelector('.top-bar');
 const $displayWrap = document.querySelector('.display-wrap');
 const $cfgDelay = document.getElementById('cfgDelay');
+const $cfgStartCode = document.getElementById('cfgStartCode');
 const $cfgDebug = document.getElementById('cfgDebug');
 const $cfgClose = document.getElementById('cfgClose');
 const $cfgSave = document.getElementById('cfgSave');
@@ -24,6 +25,7 @@ const SECRET = '88224466=';
 const cfg = loadConfig();
 $cfgCount.value = cfg.phase1Count;
 $cfgDelay.value = cfg.delaySec;
+$cfgStartCode.value = cfg.startCode || '';
 $cfgDebug.checked = !!cfg.debug;
 updateConfigSaveState();
 
@@ -35,6 +37,7 @@ const state = {
   justEvaluated: false,
   inputDirty: false,
 
+  magicMode: cfg.startCode ? null : true,
   phase: 1,
   r1: 0,
   phase1CountDone: 0,
@@ -68,18 +71,25 @@ $form.addEventListener('submit', (e) => {
   const action = e.submitter?.value;
   if (action === 'save' && !$cfgSave.disabled) {
     cfg.phase1Count = clampInt($cfgCount.value, 1, 20, 2);
-    cfg.delaySec = clampInt($cfgDelay.value, 0, 3600, 20);
+    cfg.delaySec = clampInt($cfgDelay.value, 0, 3600, 5);
+    cfg.startCode = sanitizeStartCode($cfgStartCode.value);
     cfg.debug = !!$cfgDebug.checked;
     saveConfig(cfg);
+    clearAll();
     render();
     updateConfigSaveState();
   }
   $dialog.close();
 });
 
-[$cfgCount, $cfgDelay, $cfgDebug].forEach((el) => {
+[$cfgCount, $cfgDelay, $cfgStartCode, $cfgDebug].forEach((el) => {
   el.addEventListener('input', updateConfigSaveState);
   el.addEventListener('change', updateConfigSaveState);
+});
+
+$cfgStartCode.addEventListener('input', () => {
+  $cfgStartCode.value = sanitizeStartCode($cfgStartCode.value);
+  updateConfigSaveState();
 });
 
 $cfgClose.addEventListener('click', () => {
@@ -134,7 +144,7 @@ function press(key) {
   state.lastKey = key;
   state.lastIgnored = false;
 
-  if (state.phase === 2 && /^(\d|\.|±|%|back|\+|\-|×|÷)$/.test(key)) {
+  if (state.magicMode === true && state.phase === 2 && /^(\d|\.|±|%|back|\+|\-|×|÷)$/.test(key)) {
     state.lastIgnored = true;
     typeMagicR2Digit();
     return;
@@ -158,6 +168,7 @@ function typeDigit(d) {
     state.pendingOp = null;
     state.justEvaluated = false;
     state.inputDirty = false;
+    state.magicMode = cfg.startCode ? null : true;
     resetMagic();
   }
 
@@ -174,6 +185,7 @@ function typeDot() {
     state.pendingOp = null;
     state.justEvaluated = false;
     state.inputDirty = false;
+    state.magicMode = cfg.startCode ? null : true;
     resetMagic();
   }
   if (!state.input.includes('.')) {
@@ -198,6 +210,7 @@ function clearAll() {
   state.justEvaluated = false;
   state.inputDirty = false;
   state.secretBuffer = '';
+  state.magicMode = cfg.startCode ? null : true;
   resetMagic();
   render();
 }
@@ -219,7 +232,11 @@ function percent() {
 function operate(op) {
   const cur = Number(state.input || '0');
 
-  if (op === '+') {
+  if (state.magicMode === null && state.inputDirty) {
+    resolveMagicModeFromFirstInput();
+  }
+
+  if (state.magicMode === true && op === '+') {
     if (state.phase === 1) {
       if (state.inputDirty) {
         state.r1 += cur;
@@ -261,7 +278,11 @@ function operate(op) {
 }
 
 function equals() {
-  if (state.phase === 2) {
+  if (state.magicMode === null && state.inputDirty) {
+    resolveMagicModeFromFirstInput();
+  }
+
+  if (state.magicMode === true && state.phase === 2) {
     while (state.r2Typed.length < state.r2Full.length) typeMagicR2Digit(true);
     const result = state.r1 + Number(state.r2Full || '0');
     state.input = String(result);
@@ -420,6 +441,7 @@ function pushSecret(key) {
   if (state.secretBuffer === SECRET) {
     $cfgCount.value = cfg.phase1Count;
     $cfgDelay.value = cfg.delaySec;
+    $cfgStartCode.value = cfg.startCode || '';
     $cfgDebug.checked = !!cfg.debug;
     updateConfigSaveState();
     $dialog.showModal();
@@ -433,7 +455,7 @@ function pushSecret(key) {
 }
 
 function loadConfig() {
-  const fallback = { phase1Count: 2, delaySec: 5, debug: false };
+  const fallback = { phase1Count: 2, delaySec: 5, startCode: '', debug: false };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return fallback;
@@ -441,6 +463,7 @@ function loadConfig() {
     return {
       phase1Count: clampInt(data.phase1Count, 1, 20, 2),
       delaySec: clampInt(data.delaySec, 0, 3600, 5),
+      startCode: sanitizeStartCode(data.startCode ?? ''),
       debug: !!data.debug,
     };
   } catch {
@@ -452,18 +475,31 @@ function saveConfig(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
+function resolveMagicModeFromFirstInput() {
+  if (state.magicMode !== null) return;
+  const code = sanitizeStartCode(cfg.startCode || '');
+  state.magicMode = code === '' ? true : String(state.input || '').trim() === code;
+}
+
 function updateConfigSaveState() {
   const draft = {
     phase1Count: clampInt($cfgCount.value, 1, 20, 2),
     delaySec: clampInt($cfgDelay.value, 0, 3600, 5),
+    startCode: sanitizeStartCode($cfgStartCode.value),
     debug: !!$cfgDebug.checked,
   };
   const unchanged =
     draft.phase1Count === cfg.phase1Count &&
     draft.delaySec === cfg.delaySec &&
+    draft.startCode === (cfg.startCode || '') &&
     draft.debug === !!cfg.debug;
 
   $cfgSave.disabled = unchanged;
+}
+
+function sanitizeStartCode(v) {
+  const s = String(v ?? '').trim();
+  return /^\d$/.test(s) ? s : '';
 }
 
 function clampInt(v, min, max, dft) {
