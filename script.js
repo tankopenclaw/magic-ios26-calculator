@@ -17,6 +17,7 @@ const $shareBtnDrawer = document.getElementById('shareBtnDrawer');
 const $helpBtn = document.getElementById('helpBtn');
 const $helpDialog = document.getElementById('helpDialog');
 const $helpClose = document.getElementById('helpClose');
+const $helpCard = document.getElementById('helpCard');
 const $toast = document.getElementById('toast');
 
 const STORAGE_KEY = 'magicCalcConfigV1';
@@ -139,6 +140,9 @@ $helpDialog?.addEventListener('click', (e) => {
     $helpDialog.close();
   }
 });
+
+enableSheetPullToClose($dialog, $form);
+enableSheetPullToClose($helpDialog, $helpCard);
 
 function press(key) {
   state.lastKey = key;
@@ -389,6 +393,75 @@ function fitKeyboardHeight() {
   const size = Math.floor(Math.max(54, Math.min(byWidth, 108)));
 
   $keys.style.setProperty('--key-size', `${size}px`);
+}
+
+function enableSheetPullToClose(dialog, card) {
+  if (!dialog || !card) return;
+  const top = card.querySelector('.sheet-top');
+  if (!top) return;
+
+  let startY = 0;
+  let dragging = false;
+
+  const onStart = (y) => {
+    startY = y;
+    dragging = true;
+    card.style.transition = 'none';
+  };
+
+  const onMove = (y) => {
+    if (!dragging) return;
+    const dy = Math.max(0, y - startY);
+    card.style.transform = `translateY(${dy}px)`;
+  };
+
+  const onEnd = (y) => {
+    if (!dragging) return;
+    const dy = Math.max(0, y - startY);
+    dragging = false;
+    card.style.transition = 'transform .18s ease';
+
+    if (dy > 80) {
+      dialog.close();
+      card.style.transform = '';
+      card.style.transition = '';
+      return;
+    }
+
+    card.style.transform = 'translateY(0)';
+    setTimeout(() => {
+      card.style.transition = '';
+      card.style.transform = '';
+    }, 180);
+  };
+
+  top.addEventListener('touchstart', (e) => {
+    if (!dialog.open || !e.touches[0]) return;
+    onStart(e.touches[0].clientY);
+  }, { passive: true });
+
+  top.addEventListener('touchmove', (e) => {
+    if (!dragging || !e.touches[0]) return;
+    onMove(e.touches[0].clientY);
+  }, { passive: true });
+
+  top.addEventListener('touchend', (e) => {
+    onEnd(e.changedTouches?.[0]?.clientY ?? startY);
+  });
+
+  top.addEventListener('pointerdown', (e) => {
+    if (!dialog.open) return;
+    onStart(e.clientY);
+  });
+
+  top.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    onMove(e.clientY);
+  });
+
+  top.addEventListener('pointerup', (e) => {
+    onEnd(e.clientY);
+  });
 }
 
 function updateInstallUi() {
