@@ -16,7 +16,8 @@ button, input, label { touch-action: manipulation; }
 
 .phone {
   width: min(100vw, 430px);
-  min-height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
   padding: 12px 14px 0;
   background: var(--bg);
 }
@@ -24,7 +25,7 @@ button, input, label { touch-action: manipulation; }
 .calc {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 12px - env(safe-area-inset-top));
+  height: 100%;
 }
 
 .top-bar {
@@ -97,21 +98,24 @@ button, input, label { touch-action: manipulation; }
 }
 
 .keys {
+  --key-size: clamp(70px, 21vw, 96px);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: var(--key-size);
   gap: 10px;
   margin-top: 6px;
   padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  align-content: end;
+  justify-items: center;
 }
 .key {
-  aspect-ratio: 1 / 1;
-  width: 100%;
-  height: auto;
+  width: var(--key-size);
+  height: var(--key-size);
   border-radius: 50%;
   border: none;
   background: var(--num);
   color: #f5f5f7;
-  font-size: clamp(34px, 8.4vw, 56px);
+  font-size: clamp(32px, 8vw, 56px);
   font-weight: 400;
 }
 .key:active { background: var(--num-active); }
@@ -215,4 +219,6 @@ menu { display: flex; justify-content: flex-end; gap: 8px; padding: 0; margin: 4
 @media (max-width: 390px) {
   .phone { padding-inline: 10px; }
   .keys { gap: 9px; }
+  .display { font-size: clamp(44px, 14vw, 90px); }
+  .expr { font-size: clamp(22px, 5.2vw, 40px); }
 }

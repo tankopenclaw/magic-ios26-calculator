@@ -5,6 +5,8 @@ const $dialog = document.getElementById('configDialog');
 const $form = document.getElementById('configForm');
 const $debug = document.getElementById('debug');
 const $cfgCount = document.getElementById('cfgCount');
+const $topBar = document.querySelector('.top-bar');
+const $displayWrap = document.querySelector('.display-wrap');
 const $cfgDelay = document.getElementById('cfgDelay');
 const $cfgDebug = document.getElementById('cfgDebug');
 
@@ -37,6 +39,11 @@ const state = {
 };
 
 render();
+fitKeyboardHeight();
+window.addEventListener('resize', fitKeyboardHeight);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', fitKeyboardHeight);
+}
 
 let lastTouchEndAt = 0;
 document.addEventListener('touchend', (e) => {
@@ -274,6 +281,7 @@ function calc(a, b, op) {
 function render() {
   $display.textContent = formatNum(Number(state.input || '0'));
   $expr.textContent = state.expr || '\u00A0';
+  fitKeyboardHeight();
 
   if ($debug) {
     if (!cfg.debug) {
@@ -288,6 +296,29 @@ function render() {
     const line3 = `target=${state.target ?? '-'} R2full=${state.r2Full || '-'} R2typed=${state.r2Typed || '-'} len=${state.r2Typed.length}/${state.r2Full.length || 0}`;
     $debug.textContent = `${line1}\n${line2}\n${line3}`;
   }
+}
+
+function fitKeyboardHeight() {
+  const viewportH = window.visualViewport?.height || window.innerHeight;
+  const phoneStyle = getComputedStyle(document.querySelector('.phone'));
+  const phonePadTop = parseFloat(phoneStyle.paddingTop) || 0;
+
+  const keysStyle = getComputedStyle($keys);
+  const gap = parseFloat(keysStyle.gap) || 10;
+  const padBottom = parseFloat(keysStyle.paddingBottom) || 0;
+
+  const topH = $topBar?.offsetHeight || 0;
+  const displayH = $displayWrap?.offsetHeight || 0;
+  const debugH = (cfg.debug && $debug) ? $debug.offsetHeight : 0;
+
+  const reserved = phonePadTop + topH + displayH + debugH + 22;
+  const available = Math.max(280, viewportH - reserved - padBottom);
+
+  const byHeight = (available - gap * 4) / 5;
+  const byWidth = ($keys.clientWidth - gap * 3) / 4;
+  const size = Math.floor(Math.max(58, Math.min(byHeight, byWidth, 108)));
+
+  $keys.style.setProperty('--key-size', `${size}px`);
 }
 
 function formatNum(n) {
