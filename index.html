@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Magic iOS26 Calculator</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="phone">
+    <section class="calc" aria-label="magic calculator">
+      <header class="top-bar">
+        <button class="icon-btn" id="icon-left" aria-label="menu">
+          <span class="icon icon-list"></span>
+        </button>
+        <button class="icon-btn" id="icon-right" aria-label="keypad">
+          <span class="icon icon-keypad"></span>
+        </button>
+      </header>
+
+      <section class="display-wrap">
+        <div id="expr" class="expr">&nbsp;</div>
+        <div id="display" class="display">0</div>
+      </section>
+
+      <section class="keys" id="keys">
+        <button data-key="back" class="key key-fn">⌫</button>
+        <button data-key="ac" class="key key-fn">AC</button>
+        <button data-key="%" class="key key-fn">%</button>
+        <button data-key="÷" class="key key-op">÷</button>
+
+        <button data-key="7" class="key">7</button>
+        <button data-key="8" class="key">8</button>
+        <button data-key="9" class="key">9</button>
+        <button data-key="×" class="key key-op">×</button>
+
+        <button data-key="4" class="key">4</button>
+        <button data-key="5" class="key">5</button>
+        <button data-key="6" class="key">6</button>
+        <button data-key="-" class="key key-op">−</button>
+
+        <button data-key="1" class="key">1</button>
+        <button data-key="2" class="key">2</button>
+        <button data-key="3" class="key">3</button>
+        <button data-key="+" class="key key-op">+</button>
+
+        <button data-key="±" class="key">+/−</button>
+        <button data-key="0" class="key">0</button>
+        <button data-key="." class="key">.</button>
+        <button data-key="=" class="key key-op">=</button>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="configDialog" class="config">
+    <form method="dialog" class="config-card" id="configForm">
+      <h2>魔术配置</h2>
+      <p class="hint">入口：输入 <code>88224466=</code></p>
+
+      <label>
+        第一部分计划输入数字次数
+        <input type="number" min="1" max="20" step="1" id="cfgCount" />
+      </label>
+
+      <label>
+        R2 本地时间延时（秒）
+        <input type="number" min="0" max="3600" step="1" id="cfgDelay" />
+      </label>
+
+      <menu>
+        <button value="cancel" class="cfg-btn">取消</button>
+        <button value="save" class="cfg-btn cfg-btn-primary">保存</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="./script.js"></script>
+</body>
+</html>
