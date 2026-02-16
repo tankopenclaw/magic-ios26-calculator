@@ -32,30 +32,53 @@ button, input, label { touch-action: manipulation; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 12px;
+  margin-top: 6px;
 }
 .icon-btn {
-  width: 54px; height: 54px; border-radius: 50%; border: 1px solid #33353a;
+  width: 48px; height: 48px; border-radius: 50%; border: 1px solid #33353a;
   background: #15161a; color: #d6d7dc;
   display: grid; place-items: center;
 }
-.icon { display: inline-block; width: 22px; height: 22px; position: relative; }
-.icon-list::before,
+.icon { display: inline-block; width: 21px; height: 21px; position: relative; }
+.icon-list::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  right: 1px;
+  top: 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  box-shadow: 0 6px 0 currentColor, 0 12px 0 currentColor;
+}
 .icon-list::after {
   content: "";
-  position: absolute; left: 1px; right: 1px; height: 2px; background: currentColor;
-  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 6px 0 currentColor, 0 12px 0 currentColor;
 }
-.icon-list::before { top: 5px; box-shadow: 0 7px 0 currentColor, 0 14px 0 currentColor; }
-.icon-list::after { display: none; }
 .icon-keypad {
-  border: 2px solid currentColor; border-radius: 5px;
+  border: 2px solid currentColor;
+  border-radius: 4px;
 }
 .icon-keypad::before {
   content: "";
-  position: absolute; inset: 4px;
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: 4px;
+  bottom: 3px;
   background:
-    radial-gradient(circle, currentColor 1.4px, transparent 1.5px) 0 0 / 33% 33%;
+    linear-gradient(currentColor, currentColor) 0 25% / 100% 1.6px no-repeat,
+    linear-gradient(currentColor, currentColor) 0 55% / 100% 1.6px no-repeat,
+    linear-gradient(currentColor, currentColor) 33% 0 / 1.6px 100% no-repeat,
+    linear-gradient(currentColor, currentColor) 66% 0 / 1.6px 100% no-repeat;
+  opacity: 0.95;
 }
 
 .display-wrap {
