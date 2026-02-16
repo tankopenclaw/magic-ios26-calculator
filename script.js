@@ -11,7 +11,8 @@ const $cfgDelay = document.getElementById('cfgDelay');
 const $cfgDebug = document.getElementById('cfgDebug');
 const $cfgClose = document.getElementById('cfgClose');
 const $cfgSave = document.getElementById('cfgSave');
-const $shareBtn = document.getElementById('shareBtn');
+const $shareBtnTop = document.getElementById('shareBtnTop');
+const $shareBtnDrawer = document.getElementById('shareBtnDrawer');
 const $helpBtn = document.getElementById('helpBtn');
 const $helpDialog = document.getElementById('helpDialog');
 const $helpClose = document.getElementById('helpClose');
@@ -91,23 +92,25 @@ $dialog.addEventListener('click', (e) => {
   }
 });
 
-$shareBtn?.addEventListener('click', async () => {
-  const text = '我找到了春晚同款魔术计算器，效果超棒，快来试试吧～ https://magiccalc.tankxu.com';
-  try {
-    await navigator.clipboard.writeText(text);
-    showToast('邀请文案已复制到剪贴板');
-  } catch {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.setAttribute('readonly', '');
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    ta.remove();
-    showToast('邀请文案已复制到剪贴板');
-  }
+[$shareBtnTop, $shareBtnDrawer].forEach((btn) => {
+  btn?.addEventListener('click', async () => {
+    const text = '我找到了春晚同款魔术计算器，效果超棒，快来试试吧～ https://magiccalc.tankxu.com';
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast('邀请文案已复制到剪贴板');
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      showToast('邀请文案已复制到剪贴板');
+    }
+  });
 });
 
 $helpBtn?.addEventListener('click', () => {
@@ -371,9 +374,12 @@ function updateInstallUi() {
   const isStandalone =
     window.matchMedia?.('(display-mode: standalone)')?.matches ||
     window.navigator.standalone === true;
-  if ($helpBtn) {
-    $helpBtn.classList.toggle('hidden', isStandalone);
-  }
+
+  // 未添加到桌面：顶部显示分享+帮助
+  // 已添加到桌面：顶部隐藏分享，抽屉中显示 outline 分享按钮
+  $shareBtnTop?.classList.toggle('hidden', isStandalone);
+  $helpBtn?.classList.toggle('hidden', isStandalone);
+  $shareBtnDrawer?.classList.toggle('hidden', !isStandalone);
 }
 
 let toastTimer = null;
