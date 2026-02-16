@@ -98,8 +98,8 @@ button, input, label { touch-action: manipulation; }
   position: absolute;
   left: 4px;
   top: 11px;
-  width: 4px;
-  height: 4px;
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
   background: currentColor;
   box-shadow:
@@ -107,7 +107,10 @@ button, input, label { touch-action: manipulation; }
     12px 0 0 currentColor,
     0 6px 0 currentColor,
     6px 6px 0 currentColor,
-    12px 6px 0 currentColor;
+    12px 6px 0 currentColor,
+    0 12px 0 currentColor,
+    6px 12px 0 currentColor,
+    12px 12px 0 currentColor;
 }
 
 .display-wrap {
