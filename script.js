@@ -10,6 +10,7 @@ const $displayWrap = document.querySelector('.display-wrap');
 const $cfgDelay = document.getElementById('cfgDelay');
 const $cfgStartCode = document.getElementById('cfgStartCode');
 const $cfgDebug = document.getElementById('cfgDebug');
+const $cfgHelpDoc = document.getElementById('cfgHelpDoc');
 const $cfgClose = document.getElementById('cfgClose');
 const $cfgSave = document.getElementById('cfgSave');
 const $shareBtnTop = document.getElementById('shareBtnTop');
@@ -95,6 +96,11 @@ $cfgStartCode.addEventListener('input', () => {
 
 $cfgClose.addEventListener('click', () => {
   $dialog.close();
+});
+
+$cfgHelpDoc?.addEventListener('click', () => {
+  $dialog.close();
+  $helpDialog?.showModal();
 });
 
 $dialog.addEventListener('click', (e) => {
