@@ -59,9 +59,21 @@ button, input, label {
   gap: 8px;
 }
 .icon-btn-help {
-  width: 48px;
-  min-width: 48px;
-  padding: 0;
+  width: auto;
+  min-width: 82px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.icon-btn-help .icon-svg {
+  width: 18px;
+  height: 18px;
+}
+.icon-btn-help span {
+  font-size: 14px;
+  font-weight: 600;
 }
 .icon-btn-help.hidden {
   display: none;
@@ -298,6 +310,7 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
 
 .help-card {
   gap: 14px;
+  padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 40px));
 }
 .help-content {
   display: grid;
