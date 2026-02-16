@@ -61,8 +61,7 @@ button, input, label {
 .icon-btn.icon-btn-help {
   width: auto;
   height: 42px;
-  min-width: 100px;
-  padding: 0 14px;
+  padding: 0 14px 0 10px;
   border-radius: 999px;
   display: flex !important;
   flex-direction: row;
@@ -71,8 +70,8 @@ button, input, label {
   gap: 8px;
 }
 .icon-btn-help .icon-svg {
-  width: 17px;
-  height: 17px;
+  width: 24px;
+  height: 24px;
   flex: 0 0 auto;
 }
 .icon-btn-help span {
