@@ -92,7 +92,7 @@ $dialog.addEventListener('click', (e) => {
 });
 
 $shareBtn?.addEventListener('click', async () => {
-  const text = '我找到了春晚同款魔术计算器，快来试试吧 magiccalc.pages.dev';
+  const text = '我找到了春晚同款魔术计算器，效果超棒，快来试试吧... https://magiccalc.pages.dev';
   try {
     await navigator.clipboard.writeText(text);
     showToast('邀请文案已复制到剪贴板');
