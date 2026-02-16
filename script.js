@@ -3,6 +3,7 @@ const $expr = document.getElementById('expr');
 const $keys = document.getElementById('keys');
 const $dialog = document.getElementById('configDialog');
 const $form = document.getElementById('configForm');
+const $debug = document.getElementById('debug');
 const $cfgCount = document.getElementById('cfgCount');
 const $cfgDelay = document.getElementById('cfgDelay');
 
@@ -29,6 +30,8 @@ const state = {
   r2Typed: '',
 
   secretBuffer: '',
+  lastKey: '-',
+  lastIgnored: false,
 };
 
 render();
@@ -52,7 +55,11 @@ $form.addEventListener('submit', (e) => {
 });
 
 function press(key) {
+  state.lastKey = key;
+  state.lastIgnored = false;
+
   if (state.phase === 2 && /^(\d|\.|±|%|back|\+|\-|×|÷)$/.test(key)) {
+    state.lastIgnored = true;
     typeMagicR2Digit();
     return;
   }
@@ -245,6 +252,14 @@ function calc(a, b, op) {
 function render() {
   $display.textContent = formatNum(Number(state.input || '0'));
   $expr.textContent = state.expr || '\u00A0';
+
+  if ($debug) {
+    const ignoreNow = state.phase === 2 ? 'YES' : 'NO';
+    const line1 = `phase=${state.phase} ignoreInput=${ignoreNow} lastKey=${state.lastKey} lastIgnored=${state.lastIgnored ? 'YES' : 'NO'}`;
+    const line2 = `phase1Count=${state.phase1CountDone}/${cfg.phase1Count} inputDirty=${state.inputDirty ? 'YES' : 'NO'} R1=${formatNum(state.r1)}`;
+    const line3 = `target=${state.target ?? '-'} R2full=${state.r2Full || '-'} R2typed=${state.r2Typed || '-'}`;
+    $debug.textContent = `${line1}\n${line2}\n${line3}`;
+  }
 }
 
 function formatNum(n) {

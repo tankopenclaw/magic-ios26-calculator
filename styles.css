@@ -76,6 +76,20 @@ body { min-height: 100vh; display: grid; place-items: center; }
   overflow: hidden;
 }
 
+.debug {
+  margin: 0 4px 10px;
+  min-height: 30px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #111218;
+  border: 1px solid #2b2d36;
+  color: #9fe89f;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.35;
+  white-space: pre-wrap;
+}
+
 .keys {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
