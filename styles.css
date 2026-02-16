@@ -368,8 +368,8 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
 .toast {
   position: fixed;
   left: 50%;
-  bottom: 28px;
-  transform: translateX(-50%) translateY(20px);
+  top: 18px;
+  transform: translateX(-50%) translateY(-20px);
   background: rgba(28, 29, 34, 0.95);
   border: 1px solid #3a3e49;
   color: #fff;
