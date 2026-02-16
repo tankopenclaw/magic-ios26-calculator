@@ -126,7 +126,7 @@ button, input, label {
 .expr {
   min-height: 40px;
   color: var(--subtext);
-  font-size: clamp(24px, 6vw, 52px);
+  font-size: clamp(28px, 6vw, 52px);
   line-height: 1.1;
   letter-spacing: 0.2px;
   overflow: hidden;
