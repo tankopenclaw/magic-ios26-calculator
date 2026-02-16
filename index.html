@@ -86,56 +86,63 @@
 
   <dialog id="configDialog" class="config">
     <form method="dialog" class="config-card" id="configForm">
-      <div class="sheet-grabber" aria-hidden="true"></div>
-      <div class="config-head">
-        <h2>魔术配置</h2>
-        <button type="button" id="cfgClose" class="cfg-close" aria-label="关闭">✕</button>
+      <div class="sheet-top">
+        <div class="sheet-grabber" aria-hidden="true"></div>
+        <div class="config-head">
+          <h2>魔术配置</h2>
+          <button type="button" id="cfgClose" class="cfg-close" aria-label="关闭">✕</button>
+        </div>
       </div>
-      <label class="cfg-item cfg-item-first">
-        真实数字输入次数
-        <input type="number" min="1" max="20" step="1" id="cfgCount" />
-      </label>
 
-      <label class="cfg-item">
-        计算时间延时（秒）
-        <input type="number" min="0" max="3600" step="1" id="cfgDelay" />
-      </label>
+      <div class="sheet-body">
+        <label class="cfg-item cfg-item-first">
+          真实数字输入次数
+          <input type="number" min="1" max="20" step="1" id="cfgCount" />
+        </label>
 
-      <label class="cfg-item">
-        魔术模式启动暗号
-        <input type="text" inputmode="numeric" id="cfgStartCode" placeholder="请填写数字，留空默认启动" maxlength="5" />
-      </label>
+        <label class="cfg-item">
+          计算时间延时（秒）
+          <input type="number" min="0" max="3600" step="1" id="cfgDelay" />
+        </label>
 
-      <label class="switch-row cfg-item" for="cfgDebug">
-        <span>调试信息</span>
-        <span class="switch">
-          <input type="checkbox" id="cfgDebug" />
-          <span class="slider"></span>
-        </span>
-      </label>
+        <label class="cfg-item">
+          魔术模式启动暗号
+          <input type="text" inputmode="numeric" id="cfgStartCode" placeholder="请填写数字，留空默认启动" maxlength="5" />
+        </label>
 
-      <menu>
-        <button value="save" id="cfgSave" class="cfg-btn cfg-btn-primary">保存</button>
-      </menu>
+        <label class="switch-row cfg-item" for="cfgDebug">
+          <span>调试信息</span>
+          <span class="switch">
+            <input type="checkbox" id="cfgDebug" />
+            <span class="slider"></span>
+          </span>
+        </label>
 
-      <button type="button" id="shareBtnDrawer" class="cfg-btn cfg-btn-outline hidden" aria-label="分享">
-        <svg class="icon-svg icon-share" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M22 10.981L15.027 2v4.99C3.075 6.99 1.711 16.678 2.043 22l.007-.041c.502-2.685.712-6.986 12.977-6.986v4.99L22 10.98z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>分享给好友</span>
-      </button>
+        <menu>
+          <button value="save" id="cfgSave" class="cfg-btn cfg-btn-primary">保存</button>
+        </menu>
+
+        <button type="button" id="shareBtnDrawer" class="cfg-btn cfg-btn-outline hidden" aria-label="分享">
+          <svg class="icon-svg icon-share" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 10.981L15.027 2v4.99C3.075 6.99 1.711 16.678 2.043 22l.007-.041c.502-2.685.712-6.986 12.977-6.986v4.99L22 10.98z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>分享给好友</span>
+        </button>
+      </div>
     </form>
   </dialog>
 
   <dialog id="helpDialog" class="config">
     <section class="config-card help-card" id="helpCard">
-      <div class="sheet-grabber" aria-hidden="true"></div>
-      <div class="config-head">
-        <h2>魔术操作说明</h2>
-        <button type="button" id="helpClose" class="cfg-close" aria-label="关闭">✕</button>
+      <div class="sheet-top">
+        <div class="sheet-grabber" aria-hidden="true"></div>
+        <div class="config-head">
+          <h2>魔术操作说明</h2>
+          <button type="button" id="helpClose" class="cfg-close" aria-label="关闭">✕</button>
+        </div>
       </div>
 
-      <div class="help-content">
+      <div class="sheet-body help-content">
         <section class="help-item">
           <h3>第一环节（真实输入）</h3>
           <p>观众输入一个或多个数字，每次按 <code>+</code> 进行累加，得到 <code>R1</code>。</p>
