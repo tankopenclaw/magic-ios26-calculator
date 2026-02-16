@@ -299,27 +299,12 @@ function render() {
 }
 
 function fitKeyboardHeight() {
-  const viewportH = window.visualViewport?.height || window.innerHeight;
-  const phoneStyle = getComputedStyle(document.querySelector('.phone'));
-  const phonePadTop = parseFloat(phoneStyle.paddingTop) || 0;
-
   const keysStyle = getComputedStyle($keys);
   const gap = parseFloat(keysStyle.gap) || 10;
-  const padBottom = parseFloat(keysStyle.paddingBottom) || 0;
 
-  const topH = $topBar?.offsetHeight || 0;
-  const displayH = $displayWrap?.offsetHeight || 0;
-  const debugH = (cfg.debug && $debug) ? $debug.offsetHeight : 0;
-
-  const inStandalone = window.matchMedia?.('(display-mode: standalone)')?.matches || window.navigator.standalone === true;
-  const safariToolbarReserve = inStandalone ? 0 : 52;
-
-  const reserved = phonePadTop + topH + displayH + debugH + 26;
-  const available = Math.max(210, viewportH - reserved - padBottom - safariToolbarReserve);
-
-  const byHeight = (available - gap * 4) / 5;
+  // 按你的要求：键盘尺寸只按宽度算，不再受可用高度影响
   const byWidth = ($keys.clientWidth - gap * 3) / 4;
-  const size = Math.floor(Math.max(54, Math.min(byHeight, byWidth, 108)));
+  const size = Math.floor(Math.max(54, Math.min(byWidth, 108)));
 
   $keys.style.setProperty('--key-size', `${size}px`);
 }
