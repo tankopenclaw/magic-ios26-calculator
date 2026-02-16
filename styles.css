@@ -17,7 +17,7 @@ html, body {
   overflow: hidden;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
+  font-family: sans-serif;
 }
 body { display: grid; place-items: center; overscroll-behavior: none; }
 button, input, label { touch-action: manipulation; }
@@ -48,7 +48,7 @@ button, input, label { touch-action: manipulation; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 6px;
+  margin-top: 0;
 }
 .icon-btn {
   width: 48px; height: 48px; border-radius: 50%; border: 1px solid #33353a;
@@ -78,39 +78,10 @@ button, input, label { touch-action: manipulation; }
   background: currentColor;
   box-shadow: 0 6px 0 currentColor, 0 12px 0 currentColor;
 }
-.icon-keypad {
-  border: 2px solid currentColor;
-  border-radius: 5px;
-}
-.icon-keypad::before {
-  content: "";
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  top: 4px;
-  height: 4px;
-  border-radius: 2px;
-  background: currentColor;
-  opacity: .9;
-}
-.icon-keypad::after {
-  content: "";
-  position: absolute;
-  left: 4px;
-  top: 11px;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow:
-    6px 0 0 currentColor,
-    12px 0 0 currentColor,
-    0 6px 0 currentColor,
-    6px 6px 0 currentColor,
-    12px 6px 0 currentColor,
-    0 12px 0 currentColor,
-    6px 12px 0 currentColor,
-    12px 12px 0 currentColor;
+.icon-svg {
+  width: 22px;
+  height: 22px;
+  display: block;
 }
 
 .display-wrap {
@@ -159,7 +130,7 @@ button, input, label { touch-action: manipulation; }
   grid-auto-rows: var(--key-size);
   gap: 10px;
   margin-top: 6px;
-  padding-bottom: 8px;
+  padding-bottom: 32px;
   align-content: end;
   justify-items: center;
 }
@@ -182,6 +153,44 @@ button, input, label { touch-action: manipulation; }
   font-weight: 500;
 }
 .key-op:active { background: var(--op-active); }
+
+.key-sign {
+  position: relative;
+}
+.sign-icon {
+  position: relative;
+  width: 42%;
+  height: 42%;
+  display: block;
+  background: linear-gradient(-45deg,
+    transparent 44%,
+    currentColor 44%,
+    currentColor 56%,
+    transparent 56%);
+}
+.sign-icon::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 1px;
+  width: 72%;
+  height: 3px;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  background: currentColor;
+  box-shadow: 0 14px 0 0 currentColor;
+}
+.sign-icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  width: 3px;
+  height: 9px;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  background: currentColor;
+}
 
 .config {
   border: none;
