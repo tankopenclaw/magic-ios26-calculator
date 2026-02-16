@@ -60,20 +60,23 @@ button, input, label {
 }
 .icon-btn-help {
   width: auto;
-  min-width: 82px;
-  padding: 0 10px;
+  height: 42px;
+  min-width: 100px;
+  padding: 0 14px;
+  border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
 }
 .icon-btn-help .icon-svg {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
 }
 .icon-btn-help span {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
+  line-height: 1;
 }
 .icon-btn-help.hidden {
   display: none;
@@ -314,13 +317,26 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
 }
 .help-content {
   display: grid;
-  gap: 12px;
+  gap: 16px;
   color: #d6d9e4;
   font-size: 16px;
-  line-height: 1.45;
+  line-height: 1.5;
 }
-.help-content p {
+.help-item {
+  display: grid;
+  gap: 10px;
+}
+.help-item h3 {
   margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+  color: #f4f5fa;
+}
+.help-item p {
+  margin: 0;
+}
+.help-item-emphasis h3 {
+  color: #ff9f0a;
 }
 .help-content code {
   background: #232733;
@@ -335,4 +351,5 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
   .display { font-size: clamp(44px, 14vw, 90px); }
   .expr { font-size: clamp(22px, 5.2vw, 40px); }
   .help-content { font-size: 15px; }
+  .help-item h3 { font-size: 17px; }
 }
