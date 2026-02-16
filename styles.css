@@ -133,7 +133,7 @@ button, input, label {
   grid-auto-rows: var(--key-size);
   gap: 10px;
   margin-top: 6px;
-  padding-bottom: 32px;
+  padding-bottom: 40px;
   align-content: end;
   justify-items: center;
 }
@@ -153,7 +153,7 @@ button, input, label {
   background: var(--op);
   color: #fff;
   font-size: clamp(44px, 10vw, 70px);
-  font-weight: 500;
+  font-weight: 400;
 }
 .key-op:active { background: var(--op-active); }
 
@@ -187,16 +187,17 @@ button, input, label {
   border-radius: 18px 18px 0 0;
   border-top: 1px solid #30333d;
 }
-.config-card h2 { margin: 0; font-size: 20px; }
-.hint { margin: 0; color: #b5b8c4; font-size: 13px; }
-.config-card label { display: grid; gap: 6px; font-size: 14px; color: #d0d3dd; }
+.config-card h2 { margin: 0; font-size: 24px; }
+.hint { margin: 0; color: #b5b8c4; font-size: 15px; }
+.config-card label { display: grid; gap: 8px; font-size: 17px; color: #d0d3dd; }
 .config-card input {
-  height: 40px;
-  border-radius: 8px;
+  height: 46px;
+  border-radius: 10px;
   border: 1px solid #3a3d45;
   background: #0d0e12;
   color: #fff;
-  padding: 0 10px;
+  font-size: 18px;
+  padding: 0 12px;
 }
 .sheet-grabber {
   width: 36px;
@@ -249,8 +250,9 @@ button, input, label {
 }
 menu { display: flex; justify-content: flex-end; gap: 8px; padding: 0; margin: 4px 0 0; }
 .cfg-btn {
-  border: none; border-radius: 8px; height: 38px; padding: 0 14px;
+  border: none; border-radius: 10px; height: 44px; padding: 0 16px;
   background: #343843; color: #fff;
+  font-size: 16px;
 }
 .cfg-btn-primary { background: #ff9f0a; }
 

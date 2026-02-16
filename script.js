@@ -45,13 +45,6 @@ if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', fitKeyboardHeight);
 }
 
-let lastTouchEndAt = 0;
-document.addEventListener('touchend', (e) => {
-  const now = Date.now();
-  if (now - lastTouchEndAt < 300) e.preventDefault();
-  lastTouchEndAt = now;
-}, { passive: false });
-
 $keys.addEventListener('click', (e) => {
   const key = e.target.closest('button')?.dataset.key;
   if (!key) return;
@@ -336,6 +329,11 @@ function pushSecret(key) {
     $cfgDelay.value = cfg.delaySec;
     $cfgDebug.checked = !!cfg.debug;
     $dialog.showModal();
+    requestAnimationFrame(() => {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+    });
     state.secretBuffer = '';
   }
 }
