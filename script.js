@@ -12,6 +12,8 @@ const $cfgDebug = document.getElementById('cfgDebug');
 const $cfgClose = document.getElementById('cfgClose');
 const $cfgSave = document.getElementById('cfgSave');
 const $helpBtn = document.getElementById('helpBtn');
+const $helpDialog = document.getElementById('helpDialog');
+const $helpClose = document.getElementById('helpClose');
 
 const STORAGE_KEY = 'magicCalcConfigV1';
 const SECRET = '88224466=';
@@ -88,7 +90,20 @@ $dialog.addEventListener('click', (e) => {
 });
 
 $helpBtn?.addEventListener('click', () => {
-  alert('你可以把本页添加到桌面以获得更稳定的全屏体验。\nSafari：分享 -> 添加到主屏幕');
+  $helpDialog?.showModal();
+  requestAnimationFrame(() => {
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  });
+});
+
+$helpClose?.addEventListener('click', () => {
+  $helpDialog?.close();
+});
+
+$helpDialog?.addEventListener('click', (e) => {
+  if (e.target === $helpDialog) {
+    $helpDialog.close();
+  }
 });
 
 function press(key) {

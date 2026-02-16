@@ -19,7 +19,13 @@
           <span class="icon icon-list"></span>
         </button>
         <div class="top-right">
-          <button class="icon-btn icon-btn-help" id="helpBtn" aria-label="help">?帮助</button>
+          <button class="icon-btn icon-btn-help" id="helpBtn" aria-label="help">
+            <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M9.7 9.4a2.5 2.5 0 1 1 3.9 2.1c-.9.6-1.4 1.1-1.4 2.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <circle cx="12" cy="17.4" r="1.2" fill="currentColor"></circle>
+            </svg>
+          </button>
           <button class="icon-btn" id="icon-right" aria-label="keypad">
             <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
               <rect x="3" y="2.5" width="18" height="19" rx="4" fill="none" stroke="currentColor" stroke-width="2"></rect>
@@ -102,6 +108,22 @@
         <button value="save" id="cfgSave" class="cfg-btn cfg-btn-primary">保存</button>
       </menu>
     </form>
+  </dialog>
+
+  <dialog id="helpDialog" class="config">
+    <section class="config-card help-card" id="helpCard">
+      <div class="sheet-grabber" aria-hidden="true"></div>
+      <div class="config-head">
+        <h2>魔术操作说明</h2>
+        <button type="button" id="helpClose" class="cfg-close" aria-label="关闭">✕</button>
+      </div>
+
+      <div class="help-content">
+        <p><strong>第一环节（真实输入）</strong><br>观众输入一个或多个数字，每次按 <code>+</code> 进行累加，得到 <code>R1</code>。</p>
+        <p><strong>第二环节（魔术输出）</strong><br>进入第二环节后，按键值会被忽略。每按一次，只会输出预设 <code>R2</code> 的下一位，最终满足 <code>R1 + R2 = 目标时间</code>。</p>
+        <p><strong>进入配置代码</strong><br><code>88224466(上上下下左左右右）=</code></p>
+      </div>
+    </section>
   </dialog>
 
   <script src="./script.js"></script>

@@ -59,12 +59,9 @@ button, input, label {
   gap: 8px;
 }
 .icon-btn-help {
-  width: auto;
-  min-width: 66px;
-  padding: 0 10px;
-  border-radius: 24px;
-  font-size: 14px;
-  font-weight: 600;
+  width: 48px;
+  min-width: 48px;
+  padding: 0;
 }
 .icon-btn-help.hidden {
   display: none;
@@ -299,9 +296,30 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
   cursor: default;
 }
 
+.help-card {
+  gap: 14px;
+}
+.help-content {
+  display: grid;
+  gap: 12px;
+  color: #d6d9e4;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.help-content p {
+  margin: 0;
+}
+.help-content code {
+  background: #232733;
+  border-radius: 6px;
+  padding: 2px 6px;
+  color: #fff;
+}
+
 @media (max-width: 390px) {
   .phone { padding-inline: 10px; }
   .keys { gap: 9px; }
   .display { font-size: clamp(44px, 14vw, 90px); }
   .expr { font-size: clamp(22px, 5.2vw, 40px); }
+  .help-content { font-size: 15px; }
 }
