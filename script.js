@@ -19,6 +19,7 @@ const state = {
   accumulator: null,
   pendingOp: null,
   justEvaluated: false,
+  inputDirty: false,
 
   phase: 1,
   r1: 0,
@@ -73,10 +74,12 @@ function typeDigit(d) {
     state.accumulator = null;
     state.pendingOp = null;
     state.justEvaluated = false;
+    state.inputDirty = false;
     resetMagic();
   }
 
   state.input = state.input === '0' ? d : state.input + d;
+  state.inputDirty = true;
   render();
 }
 
@@ -87,15 +90,20 @@ function typeDot() {
     state.accumulator = null;
     state.pendingOp = null;
     state.justEvaluated = false;
+    state.inputDirty = false;
     resetMagic();
   }
-  if (!state.input.includes('.')) state.input += '.';
+  if (!state.input.includes('.')) {
+    state.input += '.';
+    state.inputDirty = true;
+  }
   render();
 }
 
 function backspace() {
   if (state.justEvaluated) return clearAll();
   state.input = state.input.length <= 1 ? '0' : state.input.slice(0, -1);
+  state.inputDirty = true;
   render();
 }
 
@@ -105,6 +113,7 @@ function clearAll() {
   state.accumulator = null;
   state.pendingOp = null;
   state.justEvaluated = false;
+  state.inputDirty = false;
   state.secretBuffer = '';
   resetMagic();
   render();
@@ -113,12 +122,14 @@ function clearAll() {
 function toggleSign() {
   if (state.input === '0') return;
   state.input = state.input.startsWith('-') ? state.input.slice(1) : '-' + state.input;
+  state.inputDirty = true;
   render();
 }
 
 function percent() {
   const n = Number(state.input || '0') / 100;
   state.input = String(trimFloat(n));
+  state.inputDirty = true;
   render();
 }
 
@@ -127,19 +138,19 @@ function operate(op) {
 
   if (op === '+') {
     if (state.phase === 1) {
-      const hasInput = state.input !== '';
-      if (hasInput) {
+      if (state.inputDirty) {
         state.r1 += cur;
         state.phase1CountDone += 1;
         state.expr = `${formatNum(state.r1)}+`;
         state.input = '0';
+        state.inputDirty = false;
         state.accumulator = state.r1;
         state.pendingOp = '+';
         render();
         return;
       }
 
-      if (state.phase1CountDone >= cfg.phase1Count) {
+      if (!state.inputDirty && state.phase1CountDone >= cfg.phase1Count) {
         startPhase2();
         return;
       }
@@ -155,6 +166,7 @@ function operate(op) {
   state.pendingOp = op;
   state.expr = `${formatNum(state.accumulator)}${op}`;
   state.input = '0';
+  state.inputDirty = false;
   state.justEvaluated = false;
   render();
 }
@@ -166,6 +178,7 @@ function equals() {
     state.input = String(result);
     state.expr = `${formatNum(state.r1)}+${formatNum(Number(state.r2Full || '0'))}`;
     state.justEvaluated = true;
+    state.inputDirty = false;
     state.phase = 1;
     state.r1 = 0;
     state.phase1CountDone = 0;
@@ -186,6 +199,7 @@ function equals() {
   state.accumulator = null;
   state.pendingOp = null;
   state.justEvaluated = true;
+  state.inputDirty = false;
   resetMagic();
   render();
 }
@@ -197,6 +211,7 @@ function startPhase2() {
   state.r2Full = String(Math.max(0, Math.trunc(raw)));
   state.r2Typed = '';
   state.input = '0';
+  state.inputDirty = false;
   state.expr = `${formatNum(state.r1)}+`;
   render();
 }
