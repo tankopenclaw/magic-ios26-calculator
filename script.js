@@ -11,6 +11,7 @@ const $cfgDelay = document.getElementById('cfgDelay');
 const $cfgDebug = document.getElementById('cfgDebug');
 const $cfgClose = document.getElementById('cfgClose');
 const $cfgSave = document.getElementById('cfgSave');
+const $helpBtn = document.getElementById('helpBtn');
 
 const STORAGE_KEY = 'magicCalcConfigV1';
 const SECRET = '88224466=';
@@ -43,10 +44,12 @@ const state = {
 
 render();
 fitKeyboardHeight();
+updateInstallUi();
 window.addEventListener('resize', fitKeyboardHeight);
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', fitKeyboardHeight);
 }
+window.matchMedia('(display-mode: standalone)').addEventListener?.('change', updateInstallUi);
 
 $keys.addEventListener('click', (e) => {
   const key = e.target.closest('button')?.dataset.key;
@@ -82,6 +85,10 @@ $dialog.addEventListener('click', (e) => {
   if (e.target === $dialog) {
     $dialog.close();
   }
+});
+
+$helpBtn?.addEventListener('click', () => {
+  alert('你可以把本页添加到桌面以获得更稳定的全屏体验。\nSafari：分享 -> 添加到主屏幕');
 });
 
 function press(key) {
@@ -321,6 +328,15 @@ function fitKeyboardHeight() {
   $keys.style.setProperty('--key-size', `${size}px`);
 }
 
+function updateInstallUi() {
+  const isStandalone =
+    window.matchMedia?.('(display-mode: standalone)')?.matches ||
+    window.navigator.standalone === true;
+  if ($helpBtn) {
+    $helpBtn.classList.toggle('hidden', isStandalone);
+  }
+}
+
 function formatNum(n) {
   if (!Number.isFinite(n)) return '0';
   if (Math.abs(n) < 1e-12) n = 0;
@@ -359,14 +375,14 @@ function pushSecret(key) {
 }
 
 function loadConfig() {
-  const fallback = { phase1Count: 2, delaySec: 20, debug: false };
+  const fallback = { phase1Count: 2, delaySec: 5, debug: false };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return fallback;
     const data = JSON.parse(raw);
     return {
       phase1Count: clampInt(data.phase1Count, 1, 20, 2),
-      delaySec: clampInt(data.delaySec, 0, 3600, 20),
+      delaySec: clampInt(data.delaySec, 0, 3600, 5),
       debug: !!data.debug,
     };
   } catch {
@@ -381,7 +397,7 @@ function saveConfig(data) {
 function updateConfigSaveState() {
   const draft = {
     phase1Count: clampInt($cfgCount.value, 1, 20, 2),
-    delaySec: clampInt($cfgDelay.value, 0, 3600, 20),
+    delaySec: clampInt($cfgDelay.value, 0, 3600, 5),
     debug: !!$cfgDebug.checked,
   };
   const unchanged =
