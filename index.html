@@ -71,7 +71,10 @@
   <dialog id="configDialog" class="config">
     <form method="dialog" class="config-card" id="configForm">
       <div class="sheet-grabber" aria-hidden="true"></div>
-      <h2>魔术配置</h2>
+      <div class="config-head">
+        <h2>魔术配置</h2>
+        <button type="button" id="cfgClose" class="cfg-close" aria-label="关闭">✕</button>
+      </div>
       <p class="hint">入口：输入 <code>88224466=</code></p>
 
       <label>
@@ -93,8 +96,7 @@
       </label>
 
       <menu>
-        <button value="cancel" class="cfg-btn">取消</button>
-        <button value="save" class="cfg-btn cfg-btn-primary">保存</button>
+        <button value="save" id="cfgSave" class="cfg-btn cfg-btn-primary">保存</button>
       </menu>
     </form>
   </dialog>

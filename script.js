@@ -9,6 +9,8 @@ const $topBar = document.querySelector('.top-bar');
 const $displayWrap = document.querySelector('.display-wrap');
 const $cfgDelay = document.getElementById('cfgDelay');
 const $cfgDebug = document.getElementById('cfgDebug');
+const $cfgClose = document.getElementById('cfgClose');
+const $cfgSave = document.getElementById('cfgSave');
 
 const STORAGE_KEY = 'magicCalcConfigV1';
 const SECRET = '88224466=';
@@ -17,6 +19,7 @@ const cfg = loadConfig();
 $cfgCount.value = cfg.phase1Count;
 $cfgDelay.value = cfg.delaySec;
 $cfgDebug.checked = !!cfg.debug;
+updateConfigSaveState();
 
 const state = {
   input: '0',
@@ -55,14 +58,30 @@ $keys.addEventListener('click', (e) => {
 $form.addEventListener('submit', (e) => {
   e.preventDefault();
   const action = e.submitter?.value;
-  if (action === 'save') {
+  if (action === 'save' && !$cfgSave.disabled) {
     cfg.phase1Count = clampInt($cfgCount.value, 1, 20, 2);
     cfg.delaySec = clampInt($cfgDelay.value, 0, 3600, 20);
     cfg.debug = !!$cfgDebug.checked;
     saveConfig(cfg);
     render();
+    updateConfigSaveState();
   }
   $dialog.close();
+});
+
+[$cfgCount, $cfgDelay, $cfgDebug].forEach((el) => {
+  el.addEventListener('input', updateConfigSaveState);
+  el.addEventListener('change', updateConfigSaveState);
+});
+
+$cfgClose.addEventListener('click', () => {
+  $dialog.close();
+});
+
+$dialog.addEventListener('click', (e) => {
+  if (e.target === $dialog) {
+    $dialog.close();
+  }
 });
 
 function press(key) {
@@ -328,6 +347,7 @@ function pushSecret(key) {
     $cfgCount.value = cfg.phase1Count;
     $cfgDelay.value = cfg.delaySec;
     $cfgDebug.checked = !!cfg.debug;
+    updateConfigSaveState();
     $dialog.showModal();
     requestAnimationFrame(() => {
       if (document.activeElement instanceof HTMLElement) {
@@ -356,6 +376,20 @@ function loadConfig() {
 
 function saveConfig(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function updateConfigSaveState() {
+  const draft = {
+    phase1Count: clampInt($cfgCount.value, 1, 20, 2),
+    delaySec: clampInt($cfgDelay.value, 0, 3600, 20),
+    debug: !!$cfgDebug.checked,
+  };
+  const unchanged =
+    draft.phase1Count === cfg.phase1Count &&
+    draft.delaySec === cfg.delaySec &&
+    draft.debug === !!cfg.debug;
+
+  $cfgSave.disabled = unchanged;
 }
 
 function clampInt(v, min, max, dft) {

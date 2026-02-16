@@ -187,7 +187,22 @@ button, input, label {
   border-radius: 18px 18px 0 0;
   border-top: 1px solid #30333d;
 }
+.config-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .config-card h2 { margin: 0; font-size: 24px; }
+.cfg-close {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: #2c2f38;
+  color: #d6d9e4;
+  font-size: 18px;
+  line-height: 1;
+}
 .hint { margin: 0; color: #b5b8c4; font-size: 15px; }
 .config-card label { display: grid; gap: 8px; font-size: 17px; color: #d0d3dd; }
 .config-card input {
@@ -248,13 +263,19 @@ button, input, label {
 .switch input:checked + .slider::before {
   transform: translateX(20px);
 }
-menu { display: flex; justify-content: flex-end; gap: 8px; padding: 0; margin: 4px 0 0; }
+menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8px 0 0; padding-bottom: max(48px, calc(env(safe-area-inset-bottom) + 48px)); }
 .cfg-btn {
-  border: none; border-radius: 10px; height: 44px; padding: 0 16px;
+  width: 100%;
+  border: none; border-radius: 12px; height: 50px; padding: 0 16px;
   background: #343843; color: #fff;
-  font-size: 16px;
+  font-size: 18px;
 }
 .cfg-btn-primary { background: #ff9f0a; }
+.cfg-btn-primary:disabled {
+  background: #4c4f57;
+  color: #b8bbc4;
+  cursor: default;
+}
 
 @media (max-width: 390px) {
   .phone { padding-inline: 10px; }
