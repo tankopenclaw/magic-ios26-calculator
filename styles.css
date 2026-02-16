@@ -17,12 +17,12 @@ html, body {
   overflow: hidden;
   background: var(--bg);
   color: var(--text);
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
 }
 body { display: grid; place-items: center; overscroll-behavior: none; }
 button, input, label {
   touch-action: manipulation;
-  font-family: sans-serif !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif !important;
 }
 
 .phone {
@@ -30,7 +30,7 @@ button, input, label {
   height: 100svh;
   min-height: 100svh;
   overflow: hidden;
-  padding: 12px 14px 0;
+  padding: 0 14px 0;
   background: var(--bg);
 }
 @supports (height: 100dvh) {
