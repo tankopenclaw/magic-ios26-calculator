@@ -58,13 +58,14 @@ button, input, label {
   align-items: center;
   gap: 8px;
 }
-.icon-btn-help {
+.icon-btn.icon-btn-help {
   width: auto;
   height: 42px;
   min-width: 100px;
   padding: 0 14px;
   border-radius: 999px;
-  display: inline-flex;
+  display: flex !important;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -72,14 +73,17 @@ button, input, label {
 .icon-btn-help .icon-svg {
   width: 17px;
   height: 17px;
+  flex: 0 0 auto;
 }
 .icon-btn-help span {
+  display: inline-block;
   font-size: 15px;
   font-weight: 600;
   line-height: 1;
+  white-space: nowrap;
 }
 .icon-btn-help.hidden {
-  display: none;
+  display: none !important;
 }
 .icon-btn {
   width: 48px; height: 48px; border-radius: 50%; border: 1px solid #33353a;
