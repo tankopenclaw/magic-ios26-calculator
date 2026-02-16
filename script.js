@@ -6,6 +6,7 @@ const $form = document.getElementById('configForm');
 const $debug = document.getElementById('debug');
 const $cfgCount = document.getElementById('cfgCount');
 const $cfgDelay = document.getElementById('cfgDelay');
+const $cfgDebug = document.getElementById('cfgDebug');
 
 const STORAGE_KEY = 'magicCalcConfigV1';
 const SECRET = '88224466=';
@@ -13,6 +14,7 @@ const SECRET = '88224466=';
 const cfg = loadConfig();
 $cfgCount.value = cfg.phase1Count;
 $cfgDelay.value = cfg.delaySec;
+$cfgDebug.checked = !!cfg.debug;
 
 const state = {
   input: '0',
@@ -49,7 +51,9 @@ $form.addEventListener('submit', (e) => {
   if (action === 'save') {
     cfg.phase1Count = clampInt($cfgCount.value, 1, 20, 2);
     cfg.delaySec = clampInt($cfgDelay.value, 0, 3600, 20);
+    cfg.debug = !!$cfgDebug.checked;
     saveConfig(cfg);
+    render();
   }
   $dialog.close();
 });
@@ -231,7 +235,12 @@ function startPhase2() {
 
 function typeMagicR2Digit(silent = false) {
   if (!state.r2Full) return;
-  const i = Math.min(state.r2Typed.length, state.r2Full.length - 1);
+  if (state.r2Typed.length >= state.r2Full.length) {
+    state.lastIgnored = true;
+    if (!silent) render();
+    return;
+  }
+  const i = state.r2Typed.length;
   state.r2Typed += state.r2Full[i];
   state.input = state.r2Typed;
   state.expr = `${formatNum(state.r1)}+${formatNum(Number(state.r2Typed || '0'))}`;
@@ -260,10 +269,16 @@ function render() {
   $expr.textContent = state.expr || '\u00A0';
 
   if ($debug) {
+    if (!cfg.debug) {
+      $debug.style.display = 'none';
+      return;
+    }
+
+    $debug.style.display = 'block';
     const ignoreNow = state.phase === 2 ? 'YES' : 'NO';
     const line1 = `phase=${state.phase} ignoreInput=${ignoreNow} lastKey=${state.lastKey} lastIgnored=${state.lastIgnored ? 'YES' : 'NO'}`;
     const line2 = `phase1Count=${state.phase1CountDone}/${cfg.phase1Count} inputDirty=${state.inputDirty ? 'YES' : 'NO'} R1=${formatNum(state.r1)}`;
-    const line3 = `target=${state.target ?? '-'} R2full=${state.r2Full || '-'} R2typed=${state.r2Typed || '-'}`;
+    const line3 = `target=${state.target ?? '-'} R2full=${state.r2Full || '-'} R2typed=${state.r2Typed || '-'} len=${state.r2Typed.length}/${state.r2Full.length || 0}`;
     $debug.textContent = `${line1}\n${line2}\n${line3}`;
   }
 }
@@ -293,13 +308,14 @@ function pushSecret(key) {
   if (state.secretBuffer === SECRET) {
     $cfgCount.value = cfg.phase1Count;
     $cfgDelay.value = cfg.delaySec;
+    $cfgDebug.checked = !!cfg.debug;
     $dialog.showModal();
     state.secretBuffer = '';
   }
 }
 
 function loadConfig() {
-  const fallback = { phase1Count: 2, delaySec: 20 };
+  const fallback = { phase1Count: 2, delaySec: 20, debug: false };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return fallback;
@@ -307,6 +323,7 @@ function loadConfig() {
     return {
       phase1Count: clampInt(data.phase1Count, 1, 20, 2),
       delaySec: clampInt(data.delaySec, 0, 3600, 20),
+      debug: !!data.debug,
     };
   } catch {
     return fallback;
