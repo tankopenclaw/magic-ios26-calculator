@@ -341,6 +341,19 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
 .help-item-emphasis h3 {
   color: #ff9f0a;
 }
+.help-footer {
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid #2b2f3a;
+}
+.help-footer p {
+  color: #bfc3cf;
+}
+.help-footer a {
+  color: #dfe3ee;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 .help-content code {
   background: #232733;
   border-radius: 6px;
