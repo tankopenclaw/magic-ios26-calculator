@@ -478,7 +478,7 @@ function saveConfig(data) {
 function resolveMagicModeFromFirstInput() {
   if (state.magicMode !== null) return;
   const code = sanitizeStartCode(cfg.startCode || '');
-  state.magicMode = code === '' ? true : String(state.input || '').trim() === code;
+  state.magicMode = code === '' ? true : String(state.input || '').replace(/\D+/g, '') === code;
 }
 
 function updateConfigSaveState() {
@@ -498,8 +498,10 @@ function updateConfigSaveState() {
 }
 
 function sanitizeStartCode(v) {
-  const s = String(v ?? '').trim();
-  return /^\d$/.test(s) ? s : '';
+  const s = String(v ?? '').replace(/\s+/g, '');
+  if (/^\d{1,5}$/.test(s)) return s;
+  const digits = s.replace(/\D+/g, '').slice(0, 5);
+  return digits;
 }
 
 function clampInt(v, min, max, dft) {
