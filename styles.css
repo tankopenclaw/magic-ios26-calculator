@@ -259,10 +259,10 @@ button, input, label {
 .hint { margin: 0; color: #b5b8c4; font-size: 15px; }
 .config-card label { display: grid; gap: 8px; font-size: 17px; color: #d0d3dd; }
 .cfg-item-first {
-  margin-top: 20px;
+  margin-top: 12px;
 }
 .cfg-item {
-  margin-top: 8px;
+  margin-top: 12px;
 }
 .config-card input {
   height: 46px;
@@ -322,12 +322,14 @@ button, input, label {
 .switch input:checked + .slider::before {
   transform: translateX(20px);
 }
-menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8px 0 0; padding-bottom: 12px; }
 .cfg-btn {
   width: 100%;
   border: none; border-radius: 12px; height: 50px; padding: 0 16px;
   background: #343843; color: #fff;
   font-size: 18px;
+}
+.cfg-save-btn {
+  margin-top: 12px;
 }
 .cfg-btn-primary { background: #ff9f0a; }
 .cfg-btn-primary:disabled {
