@@ -153,6 +153,12 @@ function operate(op) {
         state.inputDirty = false;
         state.accumulator = state.r1;
         state.pendingOp = '+';
+
+        if (state.phase1CountDone >= cfg.phase1Count) {
+          startPhase2();
+          return;
+        }
+
         render();
         return;
       }
