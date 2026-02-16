@@ -172,7 +172,12 @@ button, input, label { touch-action: manipulation; }
 }
 .key:active { background: var(--num-active); }
 .key-fn { background: var(--fn); }
-.key-op { background: var(--op); color: #fff; }
+.key-op {
+  background: var(--op);
+  color: #fff;
+  font-size: clamp(44px, 10vw, 70px);
+  font-weight: 500;
+}
 .key-op:active { background: var(--op-active); }
 
 .config {
