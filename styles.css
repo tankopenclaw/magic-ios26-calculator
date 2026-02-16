@@ -16,8 +16,8 @@ button, input, label { touch-action: manipulation; }
 
 .phone {
   width: min(100vw, 430px);
-  height: 100dvh;
-  min-height: 100dvh;
+  height: 100vh;
+  min-height: 100vh;
   padding: 12px 14px 0;
   background: var(--bg);
 }
@@ -64,21 +64,34 @@ button, input, label { touch-action: manipulation; }
 }
 .icon-keypad {
   border: 2px solid currentColor;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 .icon-keypad::before {
   content: "";
   position: absolute;
-  left: 3px;
-  right: 3px;
+  left: 4px;
+  right: 4px;
   top: 4px;
-  bottom: 3px;
-  background:
-    linear-gradient(currentColor, currentColor) 0 25% / 100% 1.6px no-repeat,
-    linear-gradient(currentColor, currentColor) 0 55% / 100% 1.6px no-repeat,
-    linear-gradient(currentColor, currentColor) 33% 0 / 1.6px 100% no-repeat,
-    linear-gradient(currentColor, currentColor) 66% 0 / 1.6px 100% no-repeat;
-  opacity: 0.95;
+  height: 4px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: .9;
+}
+.icon-keypad::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 11px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow:
+    6px 0 0 currentColor,
+    12px 0 0 currentColor,
+    0 6px 0 currentColor,
+    6px 6px 0 currentColor,
+    12px 6px 0 currentColor;
 }
 
 .display-wrap {
@@ -127,7 +140,7 @@ button, input, label { touch-action: manipulation; }
   grid-auto-rows: var(--key-size);
   gap: 10px;
   margin-top: 6px;
-  padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  padding-bottom: 8px;
   align-content: end;
   justify-items: center;
 }
@@ -164,7 +177,7 @@ button, input, label { touch-action: manipulation; }
 .config-card {
   margin: 0;
   width: 100%;
-  padding: 10px 18px calc(18px + env(safe-area-inset-bottom));
+  padding: 10px 18px 18px;
   display: grid;
   gap: 12px;
   background: #15161a;
