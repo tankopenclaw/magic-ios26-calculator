@@ -265,9 +265,12 @@ function equals() {
     state.expr = `${formatNum(state.r1)}+${formatNum(Number(state.r2Full || '0'))}`;
     state.justEvaluated = true;
     state.inputDirty = false;
-    state.phase = 1;
-    state.r1 = 0;
-    state.phase1CountDone = 0;
+
+    // 清理第一阶段遗留的运算状态，避免再次按 = 被当作继续加 R1
+    state.accumulator = null;
+    state.pendingOp = null;
+
+    resetMagic();
     render();
     return;
   }
