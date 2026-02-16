@@ -368,8 +368,9 @@ menu { display: flex; justify-content: stretch; gap: 8px; padding: 0; margin: 8p
 .toast {
   position: fixed;
   left: 50%;
-  top: 18px;
-  transform: translateX(-50%) translateY(-20px);
+  top: max(12px, calc(env(safe-area-inset-top) + 8px)) !important;
+  bottom: auto !important;
+  transform: translateX(-50%) translateY(-26px);
   background: rgba(28, 29, 34, 0.95);
   border: 1px solid #3a3e49;
   color: #fff;
