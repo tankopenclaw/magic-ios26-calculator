@@ -380,6 +380,8 @@ function updateInstallUi() {
   $shareBtnTop?.classList.toggle('hidden', isStandalone);
   $helpBtn?.classList.toggle('hidden', isStandalone);
   $shareBtnDrawer?.classList.toggle('hidden', !isStandalone);
+
+  document.documentElement.style.setProperty('--keys-pad-bottom', isStandalone ? '40px' : '16px');
 }
 
 let toastTimer = null;

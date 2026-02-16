@@ -171,7 +171,7 @@ button, input, label {
   grid-auto-rows: var(--key-size);
   gap: 10px;
   margin-top: 6px;
-  padding-bottom: 40px;
+  padding-bottom: var(--keys-pad-bottom, 40px);
   align-content: end;
   justify-items: center;
 }
