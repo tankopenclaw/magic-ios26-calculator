@@ -17,11 +17,15 @@ button, input, label { touch-action: manipulation; }
 .phone {
   width: min(100vw, 430px);
   min-height: 100vh;
-  padding: 20px 14px calc(24px + env(safe-area-inset-bottom));
+  padding: 12px 14px 0;
   background: var(--bg);
 }
 
-.calc { display: flex; flex-direction: column; height: 100%; }
+.calc {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 12px - env(safe-area-inset-top));
+}
 
 .top-bar {
   display: flex;
@@ -55,7 +59,7 @@ button, input, label { touch-action: manipulation; }
 
 .display-wrap {
   margin-top: auto;
-  padding: 28px 4px 18px;
+  padding: 16px 4px 10px;
   text-align: right;
 }
 .expr {
@@ -96,7 +100,8 @@ button, input, label { touch-action: manipulation; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  padding-bottom: 10px;
+  margin-top: 6px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
 }
 .key {
   height: clamp(72px, 18vw, 95px);
