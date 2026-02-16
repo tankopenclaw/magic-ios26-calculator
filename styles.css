@@ -10,22 +10,38 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif; }
-body { min-height: 100vh; display: grid; place-items: center; }
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
+}
+body { display: grid; place-items: center; overscroll-behavior: none; }
 button, input, label { touch-action: manipulation; }
 
 .phone {
   width: min(100vw, 430px);
-  height: 100vh;
-  min-height: 100vh;
+  height: 100svh;
+  min-height: 100svh;
+  overflow: hidden;
   padding: 12px 14px 0;
   background: var(--bg);
+}
+@supports (height: 100dvh) {
+  .phone {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
 }
 
 .calc {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 0;
 }
 
 .top-bar {
